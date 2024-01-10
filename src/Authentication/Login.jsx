@@ -2,8 +2,11 @@ import { FaFacebook } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import login from '../assets/images/login/login.svg'
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../AuthProvider/AuthProvider";
 
 const Login = () => {
+    const { loginUser } = useContext(AuthContext);
 
     const handleLogin = e => {
         e.preventDefault();
@@ -11,6 +14,14 @@ const Login = () => {
         const email = form.email.value;
         const password = form.password.value;
         console.log(email, password)
+
+        loginUser(email, password)
+            .then(r => {
+                console.log(r);
+            })
+            .catch(error => {
+                console.log(error.message);
+            })
     }
 
     return (
@@ -54,8 +65,8 @@ const Login = () => {
                             <button><FaFacebook></FaFacebook></button>
                             <button><FcGoogle></FcGoogle></button>
                         </div>
-                        <p className="mt-5">Don't Have an account? 
-                        <Link to='/signUp' className="text-[#ff3811] font-semibold"> Sign Up</Link></p>
+                        <p className="mt-5">Don't Have an account?
+                            <Link to='/signUp' className="text-[#ff3811] font-semibold"> Sign Up</Link></p>
                     </div>
                 </div>
             </div>

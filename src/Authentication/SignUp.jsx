@@ -1,9 +1,13 @@
 import { FaFacebook } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import login from '../assets/images/login/login.svg'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../AuthProvider/AuthProvider";
 
 const SignUp = () => {
+    const { createUser } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const handleSingUp = e => {
         e.preventDefault();
@@ -12,6 +16,15 @@ const SignUp = () => {
         const email = form.email.value;
         const password = form.password.value;
         console.log(email, password, name)
+
+        createUser(email, password)
+            .then(r => {
+                console.log(r);
+                navigate('/');
+            })
+            .catch(error => {
+                console.log(error.message);
+            })
     }
 
     return (
