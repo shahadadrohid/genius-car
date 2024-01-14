@@ -1,13 +1,13 @@
 import { useContext } from "react";
 import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "../../AuthProvider/AuthProvider";
-import axios from "axios";
 
 const CheckOut = () => {
     const service = useLoaderData();
     const { _id, price, title, img } = service;
     console.log(service);
     const { user } = useContext(AuthContext);
+    console.log(user)
 
     const handleServiceOrder = e => {
         e.preventDefault();
@@ -26,7 +26,8 @@ const CheckOut = () => {
             img,
             service: title,
             serviceId: _id,
-            price: price
+            price: price,
+            phone
         }
         console.log("Your Order:", order)
 
@@ -37,10 +38,10 @@ const CheckOut = () => {
             },
             body: JSON.stringify(order)
         })
-        .then(res => res.json())
-        .then(data => {
-            console.log(data)
-        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+            })
 
 
         // axios.post('http://localhost:5000/bookings', {
