@@ -1,6 +1,8 @@
-const BookingsCard = ({ booking, handleDeleteBooking }) => {
+import { IoIosArrowDown } from "react-icons/io";
+
+const BookingsCard = ({ booking, handleDeleteBooking, handleConfirmUpdateStatus }) => {
     console.log(booking)
-    const { _id, img, date, customerName, service, price } = booking;
+    const { _id, img, date, customerName, service, price, status } = booking;
     return (
         <tr>
             <th>
@@ -28,7 +30,13 @@ const BookingsCard = ({ booking, handleDeleteBooking }) => {
             </td>
             <td>{date}</td>
             <th>
-                <button className="btn bg-[#ff3811] text-white px-8">Pending</button>
+                {status == 'confirm' ?
+                    <button className="border-2 border-[#29b170] text-[#29b170] px-8 py-3 rounded-lg flex items-center">
+                        Approved <IoIosArrowDown className="text-3xl mt-1 ml-2"></IoIosArrowDown>
+                    </button>
+                    :
+                    <button onClick={() => handleConfirmUpdateStatus(_id)} className="btn bg-[#ff3811] text-white px-8">Pending</button>
+                }
             </th>
         </tr>
     );
