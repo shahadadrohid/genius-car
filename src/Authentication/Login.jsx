@@ -1,12 +1,16 @@
 import { FaFacebook } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import login from '../assets/images/login/login.svg'
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../AuthProvider/AuthProvider";
+import axios from "axios";
 
 const Login = () => {
     const { loginUser } = useContext(AuthContext);
+    const location = useLocation();
+    const navigate = useNavigate();
+    // console.log(location)
 
     const handleLogin = e => {
         e.preventDefault();
@@ -17,8 +21,24 @@ const Login = () => {
 
         loginUser(email, password)
             .then(r => {
-                console.log(r);
+                const loggedInUser = r.user;
+                console.log(loggedInUser);
+
+                const user = { email };
+                axios.post('http://localhost:5000/jwt', user, {
+                    withCredentials: true
+                })
+                    .then(res => {
+                        console.log(res.data);
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+
+
+                // navigate(location?.state ? location.state : '/')
             })
+
             .catch(error => {
                 console.log(error.message);
             })
