@@ -1,24 +1,30 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../AuthProvider/AuthProvider";
 import BookingsCard from "./BookingsCard";
+import axios from "axios";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+// import { data } from "autoprefixer";
 
 const Bookings = () => {
+    const axiosSecure = useAxiosSecure();
     const { user } = useContext(AuthContext);
     // console.log(user.email);
     const [bookings, setBookings] = useState([]);
 
-    const url = `http://localhost:5000/bookings?customerEmail=${user?.email}`;
-    console.log(url)
+    const url = `/bookings?email=${user?.email}`;
 
     useEffect(() => {
-        fetch(url)
-            .then(res => res.json())
-            .then(data => setBookings(data))
-    }, [url])
+        axiosSecure.get(url)
+            .then(res => setBookings(res.data))
+
+        // fetch(url, { credentials: 'include' })
+        //     .then(res => res.json())
+        //     .then(data => setBookings(data))
+    }, [url, axiosSecure])
 
     const handleDeleteBooking = id => {
         console.log(id)
-        const url = `http://localhost:5000/bookings/${id}`
+        const url = `https://server-genius-car.vercel.app/bookings/${id}`
         console.log(url)
         fetch(url, {
             method: 'DELETE'
@@ -35,7 +41,7 @@ const Bookings = () => {
 
     const handleConfirmUpdateStatus = id => {
         console.log(id)
-        fetch(`http://localhost:5000/bookings/${id}`, {
+        fetch(`https://server-genius-car.vercel.app/bookings/${id}`, {
             method: 'PATCH',
             headers: {
                 'content-type': 'application/json'

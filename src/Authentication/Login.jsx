@@ -2,12 +2,14 @@ import { FaFacebook } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import login from '../assets/images/login/login.svg'
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useContext } from "react";
-import { AuthContext } from "../AuthProvider/AuthProvider";
+// import { useContext } from "react";
+// import { AuthContext } from "../AuthProvider/AuthProvider";
 import axios from "axios";
+import useAuth from "../Hooks/useAuth";
 
 const Login = () => {
-    const { loginUser } = useContext(AuthContext);
+    const { loginUser } = useAuth();
+    // const { loginUser } = useContext(AuthContext);
     const location = useLocation();
     const navigate = useNavigate();
     // console.log(location)
@@ -23,20 +25,20 @@ const Login = () => {
             .then(r => {
                 const loggedInUser = r.user;
                 console.log(loggedInUser);
-
-                const user = { email };
-                axios.post('http://localhost:5000/jwt', user, {
-                    withCredentials: true
-                })
-                    .then(res => {
-                        console.log(res.data);
-                    })
-                    .catch(error => {
-                        console.log(error)
-                    })
-
-
-                // navigate(location?.state ? location.state : '/')
+                navigate(location?.state ? location.state : '/')
+                // const user = { email };
+                // axios.post('https://server-genius-car.vercel.app/jwt', user, {
+                //     withCredentials: true
+                // })
+                //     .then(res => {
+                //         console.log(res, res.data);
+                //         if (res.status === 200) {
+                //             navigate(location?.state ? location.state : '/')
+                //         }
+                //     })
+                //     .catch(error => {
+                //         console.log(error)
+                //     })
             })
 
             .catch(error => {

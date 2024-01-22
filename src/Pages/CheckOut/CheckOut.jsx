@@ -21,7 +21,7 @@ const CheckOut = () => {
 
         const order = {
             customerName: name,
-            customerEmail: email,
+            email,
             date,
             img,
             service: title,
@@ -31,7 +31,7 @@ const CheckOut = () => {
         }
         console.log("Your Order:", order)
 
-        fetch(`http://localhost:5000/bookings`, {
+        fetch(`https://server-genius-car.vercel.app/bookings`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -44,7 +44,7 @@ const CheckOut = () => {
             })
 
 
-        // axios.post('http://localhost:5000/bookings', {
+        // axios.post('https://server-genius-car.vercel.app/bookings', {
         //     order
         // })
         //     .then(res => {
